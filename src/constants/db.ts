@@ -1,12 +1,13 @@
-import {TypeOrmModuleOptions} from "@nestjs/typeorm";
+import {TypeOrmModuleOptions} from '@nestjs/typeorm';
 
 export const DB = {
   DATABASE_NAME: process.env.POSTGRES_DATABASE,
-  USERS: "users",
+  USERS: 'users',
+  ITEMS: 'items',
 } as const;
 
 export const options: TypeOrmModuleOptions = {
-  type: "postgres",
+  type: 'postgres',
   host: process.env.POSTGRES_HOST,
   port: Number(process.env.POSTGRES_PORT),
   username: process.env.POSTGRES_USERNAME,

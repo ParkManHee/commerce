@@ -1,14 +1,14 @@
-import {PipeTransform, Injectable, ArgumentMetadata} from "@nestjs/common";
-import {plainToClass} from "class-transformer";
+import {PipeTransform, Injectable, ArgumentMetadata} from '@nestjs/common';
+import {plainToClass} from 'class-transformer';
 
 @Injectable()
 export class SnakeToCamelPipe implements PipeTransform {
   private snakeToCamel(s: string): string {
-    if (typeof s === "object") return this.objectKeysToCamelCase(s);
+    if (typeof s === 'object') return this.objectKeysToCamelCase(s);
     return s.replace(/([-_]\w)/g, g => g[1].toUpperCase());
   }
   private objectKeysToCamelCase<T>(obj: T): T {
-    if (obj && typeof obj === "object") {
+    if (obj && typeof obj === 'object') {
       if (Array.isArray(obj)) {
         return obj.map(item => this.objectKeysToCamelCase(item)) as T;
       } else {
@@ -22,7 +22,7 @@ export class SnakeToCamelPipe implements PipeTransform {
             result[camelKey] =
               obj[key] instanceof Buffer
                 ? obj[key]
-                : typeof obj[key] === "object"
+                : typeof obj[key] === 'object'
                   ? this.objectKeysToCamelCase(
                       obj[key] as Record<string, unknown>
                     ) // Fix: Cast obj[key] to Record<string, unknown>
@@ -41,7 +41,7 @@ export class SnakeToCamelPipe implements PipeTransform {
   ) {
     if (value instanceof Buffer) {
       return plainToClass(metaData.metatype!, value);
-    } else if (typeof value === "object") {
+    } else if (typeof value === 'object') {
       return (value = this.objectKeysToCamelCase(value));
     } else if (Array.isArray(value)) {
       return (value = this.objectKeysToCamelCase(value));

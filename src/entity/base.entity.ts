@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity } from 'typeorm';
+import {BaseEntity, Column, Entity} from 'typeorm';
 
 @Entity({
   comment: '',
@@ -6,15 +6,15 @@ import { BaseEntity, Column, Entity } from 'typeorm';
 export default class CustemBaseEntity extends BaseEntity {
   @Column({
     name: 'created_at',
-    type: 'datetime',
+    type: 'date',
     default: () => 'CURRENT_TIMESTAMP',
     nullable: false,
   })
   createdAt: Date | string;
 
   @Column({
-    name: 'blocked_at',
-    type: 'datetime',
+    name: 'delete_at',
+    type: 'date',
     nullable: true,
     default: null,
   })
@@ -22,7 +22,7 @@ export default class CustemBaseEntity extends BaseEntity {
 
   @Column({
     name: 'last_modified_at',
-    type: 'datetime',
+    type: 'date',
     onUpdate: 'CURRENT_TIMESTAMP',
     default: null,
   })
