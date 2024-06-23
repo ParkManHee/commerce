@@ -1,7 +1,8 @@
 import {DB} from 'src/constants/db';
 import {UsersStatus} from 'src/enums/user.status';
-import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import {BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import CustemBaseEntity from './base.entity';
+import PaymentMethodEntity from './payment.method.entity';
 
 @Entity({
   name: DB.USERS,
@@ -9,6 +10,10 @@ import CustemBaseEntity from './base.entity';
   comment: '유저 테이블',
 })
 export default class UsersEntity extends CustemBaseEntity {
+
+  @OneToMany(() => PaymentMethodEntity, (paymentMethod) => paymentMethod.user)
+  payments: PaymentMethodEntity[];
+
   @PrimaryGeneratedColumn({
     unsigned: true,
   })

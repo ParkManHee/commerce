@@ -1,22 +1,30 @@
 import {DB} from 'src/constants/db';
-import {BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {BaseEntity, Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 import CustomBaseEntity from './base.entity';
-import ItemOptionsEntity from './item.options.entity';
+import ItemsEntity from './items.entity';
 
 @Entity({
-  name: DB.ITEMS,
+  name: DB.ITEMS_OPTIONS,
   database: DB.DATABASE_NAME,
-  comment: '제품 테이블',
+  comment: '제품 옵션 테이블',
 })
-export default class ItemsEntity extends CustomBaseEntity {
 
-  @OneToMany(() => ItemOptionsEntity, (options) => options.item)
-  options: ItemOptionsEntity[];
-
+// @Index(`FK_ITEMS_OPTIONS_01`, [`item`])
+export default class ItemOptionsEntity extends CustomBaseEntity {
   @PrimaryGeneratedColumn({
     unsigned: true,
   })
   seq?: number;
+
+  @ManyToOne(() => ItemsEntity, (items) => items.options, {
+    nullable: false,
+  })
+  @JoinColumn({
+    name: 'item_seq',
+    referencedColumnName: 'seq',
+    foreignKeyConstraintName: 'FK_ITEMS_OPTIONS_01',
+  })
+  item: ItemsEntity | number;
 
   @Column({
     name: 'name',

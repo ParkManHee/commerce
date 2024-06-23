@@ -4,6 +4,8 @@ export const DB = {
   DATABASE_NAME: process.env.POSTGRES_DATABASE,
   USERS: 'users',
   ITEMS: 'items',
+  ITEMS_OPTIONS: 'item_options',
+  PAYMENT_METHOD: 'payment_method',
 } as const;
 
 export const options: TypeOrmModuleOptions = {

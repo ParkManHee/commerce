@@ -3,7 +3,7 @@ import {BaseEntity, Column, Entity} from 'typeorm';
 @Entity({
   comment: '',
 })
-export default class CustemBaseEntity extends BaseEntity {
+export default class CustomBaseEntity extends BaseEntity {
   @Column({
     name: 'created_at',
     type: 'date',
