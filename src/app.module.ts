@@ -8,6 +8,7 @@ import {EntityDIModule} from './config/entity.di.module';
 import {RouterModule} from '@nestjs/core';
 import {PurchasesModule} from './purchases/purchases.module';
 import {ItemsModule} from './items/items.module';
+import { OptionsModule } from './options/options.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import {ItemsModule} from './items/items.module';
     ]),
     EntityDIModule,
     ItemsModule,
+    OptionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
