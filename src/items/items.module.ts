@@ -1,18 +1,23 @@
 import {Module} from '@nestjs/common';
 import {ItemsController} from './items.controller';
 import {ItemsService} from './items.service';
-import ItemsEntity from 'src/entity/items.entity';
-import ItemOptionsEntity from 'src/entity/item.options.entity';
 import {CustomRepositoryModule} from 'src/decorator/custom-repository.decorator.module';
+import {ItemOptionsRepository} from 'src/repositories/item.options.repository';
+import {ItemsRepository} from 'src/repositories/item.repository';
 
 @Module({
   imports: [
     CustomRepositoryModule.forCustomRepository([
-      ItemsEntity,
-      ItemOptionsEntity,
+      ItemsRepository,
+      ItemOptionsRepository,
     ]),
   ],
   controllers: [ItemsController],
-  providers: [ItemsService],
+  providers: [
+    {
+      provide: 'itemsService',
+      useClass: ItemsService,
+    },
+  ],
 })
 export class ItemsModule {}

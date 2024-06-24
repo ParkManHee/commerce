@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
   Patch,
   Post,
@@ -20,7 +21,10 @@ import {ApiTags} from '@nestjs/swagger';
 @ApiTags('items')
 @Controller('')
 export class ItemsController {
-  constructor(private itemsService: ItemsService) {}
+  constructor(
+    @Inject('itemsService')
+    private itemsService: ItemsService
+  ) {}
   @Get('/')
   async getItems(@Query() queryParams: ItemsQueryReqDto) {
     return await this.itemsService.getItemsList(queryParams);
