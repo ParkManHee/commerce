@@ -5,6 +5,9 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import {options} from './constants/db';
 import {ConfigModule} from '@nestjs/config';
 import {EntityDIModule} from './config/entity.di.module';
+import {RouterModule} from '@nestjs/core';
+import {PurchasesModule} from './purchases/purchases.module';
+import {ItemsModule} from './items/items.module';
 
 @Module({
   imports: [
@@ -23,7 +26,18 @@ import {EntityDIModule} from './config/entity.di.module';
       synchronize: true,
       logging: true,
     }),
+    RouterModule.register([
+      {
+        path: 'items',
+        module: ItemsModule,
+      },
+      {
+        path: 'purchases',
+        module: PurchasesModule,
+      },
+    ]),
     EntityDIModule,
+    ItemsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,7 @@
-import { Controller } from '@nestjs/common';
+import {Controller} from '@nestjs/common';
 
-@Controller('purchases')
-export class PurchasesController {}
+@Controller()
+export class PurchasesController {
+  async getItmes() {}
+}
+

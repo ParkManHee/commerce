@@ -1,12 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import {CustomRepository} from 'src/decorator/custom-repository.decorator';
 import UsersEntity from 'src/entity/users.entity';
-import { Repository } from 'typeorm';
+import {Repository} from 'typeorm';
 
-@Injectable()
-export class VendorHistoriesRepository {
-  constructor(
-    @InjectRepository(UsersEntity)
-    private readonly users: Repository<UsersEntity>,
-  ) {}
-}
+@CustomRepository(UsersEntity)
+export class UsersRepository extends Repository<UsersEntity> {}
