@@ -13,7 +13,7 @@ export default class CustomBaseEntity extends BaseEntity {
   createdAt: Date | string;
 
   @Column({
-    name: 'delete_at',
+    name: 'deleted_at',
     type: 'date',
     nullable: true,
     default: null,

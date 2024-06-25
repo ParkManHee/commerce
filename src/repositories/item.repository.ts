@@ -1,6 +1,7 @@
 import {DB} from 'src/constants/db';
 import {CustomRepository} from 'src/decorator/custom-repository.decorator';
 import ItemsEntity from 'src/entity/items.entity';
+import {DefaultStatus} from 'src/enums/default.status';
 import {ItemsQueryReqDto} from 'src/items/dto/items.dto';
 import {Brackets, Repository} from 'typeorm';
 
@@ -8,10 +9,11 @@ import {Brackets, Repository} from 'typeorm';
 export class ItemsRepository extends Repository<ItemsEntity> {
   async findAllItemsAndOptions(queryParams: ItemsQueryReqDto) {
     const {search, page, size} = queryParams;
-    const queryBuilder = this.createQueryBuilder(DB.ITEMS).leftJoinAndSelect(
-      `${DB.ITEMS_OPTIONS}`,
-      DB.ITEMS_OPTIONS
-    );
+    const queryBuilder = this.createQueryBuilder(DB.ITEMS)
+      .leftJoinAndSelect(`${DB.ITEMS}.options`, DB.ITEMS_OPTIONS)
+      .where(`${DB.ITEMS}.status = :status`, {
+        status: DefaultStatus.ACTIVE,
+      });
 
     if (search) {
       new Brackets(qb => {
@@ -24,16 +26,25 @@ export class ItemsRepository extends Repository<ItemsEntity> {
     }
 
     // //orderby
-    queryBuilder
-      .andWhere(`${DB.ITEMS}.deleted_at = null`)
-      .orderBy(`${DB.ITEMS}.name`, `ASC`);
-
+    queryBuilder.orderBy(`${DB.ITEMS}.name`, `ASC`);
     return {
       data: await queryBuilder
         .take(size)
         .skip((page - 1) * size)
         .getMany(),
       totalCount: await queryBuilder.getCount(),
+    };
+  }
+
+  async findItemsDetail(seq: number) {
+    const queryBuilder = this.createQueryBuilder(DB.ITEMS)
+      .leftJoinAndSelect(`${DB.ITEMS}.options`, DB.ITEMS_OPTIONS)
+      .where(`${DB.ITEMS}.seq = :seq`, {seq: seq})
+      .andWhere(`${DB.ITEMS}.status = :status`, {
+        status: DefaultStatus.ACTIVE,
+      });
+    return {
+      data: await queryBuilder.getOne(),
     };
   }
 }

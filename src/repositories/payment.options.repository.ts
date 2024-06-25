@@ -1,5 +1,5 @@
 import {CustomRepository} from 'src/decorator/custom-repository.decorator';
-import PaymentMethodEntity from 'src/entity/payment.method.entity';
+import PaymentMethodEntity from 'src/entity/paymethod.entity';
 import {Repository} from 'typeorm';
 
 @CustomRepository(PaymentMethodEntity)

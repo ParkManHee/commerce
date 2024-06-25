@@ -1,14 +1,22 @@
 import {DB} from 'src/constants/db';
-import {BaseEntity, Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import CustomBaseEntity from './base.entity';
 import ItemsEntity from './items.entity';
+import {DefaultStatus} from 'src/enums/default.status';
 
 @Entity({
   name: DB.ITEMS_OPTIONS,
   database: DB.DATABASE_NAME,
   comment: '제품 옵션 테이블',
 })
-
 // @Index(`FK_ITEMS_OPTIONS_01`, [`item`])
 export default class ItemOptionsEntity extends CustomBaseEntity {
   @PrimaryGeneratedColumn({
@@ -16,7 +24,7 @@ export default class ItemOptionsEntity extends CustomBaseEntity {
   })
   seq?: number;
 
-  @ManyToOne(() => ItemsEntity, (items) => items.options, {
+  @ManyToOne(() => ItemsEntity, item => item.options, {
     nullable: false,
   })
   @JoinColumn({
@@ -54,4 +62,21 @@ export default class ItemOptionsEntity extends CustomBaseEntity {
     default: 0.0,
   })
   sellingPrice: number;
+
+  @Column({
+    name: 'status',
+    type: 'enum',
+    enum: DefaultStatus,
+    nullable: false,
+    default: DefaultStatus.ACTIVE,
+  })
+  status: DefaultStatus;
+
+  @Column({
+    name: 'stock',
+    type: 'int',
+    nullable: false,
+    default: 10,
+  })
+  stock: number;
 }

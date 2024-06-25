@@ -1,7 +1,14 @@
 import {DB} from 'src/constants/db';
-import {BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import CustomBaseEntity from './base.entity';
 import ItemOptionsEntity from './item.options.entity';
+import {DefaultStatus} from 'src/enums/default.status';
 
 @Entity({
   name: DB.ITEMS,
@@ -9,8 +16,7 @@ import ItemOptionsEntity from './item.options.entity';
   comment: '제품 테이블',
 })
 export default class ItemsEntity extends CustomBaseEntity {
-
-  @OneToMany(() => ItemOptionsEntity, (options) => options.item)
+  @OneToMany(() => ItemOptionsEntity, options => options.item)
   options: ItemOptionsEntity[];
 
   @PrimaryGeneratedColumn({
@@ -46,4 +52,21 @@ export default class ItemsEntity extends CustomBaseEntity {
     default: 0.0,
   })
   sellingPrice: number;
+
+  @Column({
+    name: 'status',
+    type: 'enum',
+    enum: DefaultStatus,
+    nullable: false,
+    default: DefaultStatus.ACTIVE,
+  })
+  status: DefaultStatus;
+
+  @Column({
+    name: 'stock',
+    type: 'int',
+    nullable: false,
+    default: 10,
+  })
+  stock: number;
 }

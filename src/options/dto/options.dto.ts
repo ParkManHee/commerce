@@ -1,18 +1,18 @@
 import {IsArray, IsBoolean, IsNumber, IsString} from 'class-validator';
 import {ApiProperty} from '@nestjs/swagger';
 
-export class ItemParamsReqDto {
+export class OptionParamsReqDto {
   @ApiProperty({
     name: 'seq',
     required: false,
     example: 1,
-    description: '상품 아이디',
+    description: '옵션 아이디',
   })
   @IsNumber()
   seq: number;
 }
 
-export class ItemsQueryReqDto {
+export class OptionQueryReqDto {
   @ApiProperty({
     name: 'search',
     required: false,
@@ -41,12 +41,21 @@ export class ItemsQueryReqDto {
   size?: number = 10;
 }
 
-export class ItemsReqDto {
+export class OptionReqDto {
+  @ApiProperty({
+    name: 'item',
+    required: true,
+    example: '1',
+    description: '상품 아이디',
+  })
+  @IsNumber()
+  item: number;
+
   @ApiProperty({
     name: 'name',
     required: true,
-    example: 'macbook',
-    description: '상품 이름',
+    example: 'trackpad',
+    description: '옵션 이름',
   })
   @IsString()
   name: string;
@@ -54,7 +63,7 @@ export class ItemsReqDto {
   @ApiProperty({
     name: 'supply_price',
     required: true,
-    example: '1500000',
+    example: '90000',
     description: '공급가',
   })
   @IsNumber()
@@ -63,7 +72,7 @@ export class ItemsReqDto {
   @ApiProperty({
     name: 'selling_price',
     required: true,
-    example: '2000000',
+    example: '100000',
     description: '판매가',
   })
   @IsNumber()
@@ -79,12 +88,12 @@ export class ItemsReqDto {
   stock: number;
 }
 
-export class ItemsResDto {
+export class OptionResDto {
   @ApiProperty({
     name: 'seq',
     required: true,
     example: 'macbook',
-    description: '상품 아이디',
+    description: '옵션 아이디',
   })
   @IsNumber()
   seq: number;
@@ -92,8 +101,8 @@ export class ItemsResDto {
   @ApiProperty({
     name: 'name',
     required: true,
-    example: 'macbook',
-    description: '상품 이름',
+    example: 'trackpad',
+    description: '옵션 이름',
   })
   @IsString()
   name: string;
@@ -101,7 +110,7 @@ export class ItemsResDto {
   @ApiProperty({
     name: 'supply_price',
     required: true,
-    example: '1500000',
+    example: '90000',
     description: '공급가',
   })
   @IsNumber()
@@ -110,7 +119,7 @@ export class ItemsResDto {
   @ApiProperty({
     name: 'selling_price',
     required: true,
-    example: '2000000',
+    example: '10000',
     description: '판매가',
   })
   @IsNumber()
@@ -124,12 +133,9 @@ export class ItemsResDto {
   })
   @IsNumber()
   stock: number;
-
-  @IsArray()
-  options: [];
 }
 
-export class UpdateItemsResDto {
+export class UpdateOptionResDto {
   @ApiProperty({
     name: 'is_success',
     required: true,

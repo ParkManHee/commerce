@@ -1,8 +1,14 @@
 import {DB} from 'src/constants/db';
 import {UsersStatus} from 'src/enums/user.status';
-import {BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import CustemBaseEntity from './base.entity';
-import PaymentMethodEntity from './payment.method.entity';
+import PaymentMethodEntity from './paymethod.entity';
 
 @Entity({
   name: DB.USERS,
@@ -10,8 +16,7 @@ import PaymentMethodEntity from './payment.method.entity';
   comment: '유저 테이블',
 })
 export default class UsersEntity extends CustemBaseEntity {
-
-  @OneToMany(() => PaymentMethodEntity, (paymentMethod) => paymentMethod.user)
+  @OneToMany(() => PaymentMethodEntity, paymentMethod => paymentMethod.user)
   payments: PaymentMethodEntity[];
 
   @PrimaryGeneratedColumn({
@@ -68,10 +73,7 @@ export default class UsersEntity extends CustemBaseEntity {
     nullable: true,
   })
   addressDetail: string;
-  /*
-    1. 가입하고나서는 STAND_BY
-    2. 이메일 인증  -> ACTIVE
-   */
+  
   @Column({
     name: 'status',
     type: 'enum',
@@ -80,36 +82,4 @@ export default class UsersEntity extends CustemBaseEntity {
     default: UsersStatus.ACTIVE,
   })
   status: UsersStatus;
-
-  // @Column({
-  //   name: "created_at",
-  //   type: "datetime",
-  //   default: () => "CURRENT_TIMESTAMP",
-  //   nullable: false,
-  // })
-  // createdAt: Date | string;
-
-  // @Column({
-  //   name: "blocked_at",
-  //   type: "datetime",
-  //   nullable: true,
-  //   default: null,
-  // })
-  // deletedAt: Date | string;
-
-  // @Column({
-  //   name: "last_modified_at",
-  //   type: "datetime",
-  //   onUpdate: "CURRENT_TIMESTAMP",
-  //   default: null,
-  // })
-  // lastModifiedAt: Date | string;
-
-  // @Column({
-  //   name: "last_modified_by",
-  //   type: "int",
-  //   unsigned: true,
-  //   nullable: true,
-  // })
-  // lastModifiedBy: number;
 }

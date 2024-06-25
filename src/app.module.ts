@@ -6,9 +6,8 @@ import {options} from './constants/db';
 import {ConfigModule} from '@nestjs/config';
 import {EntityDIModule} from './config/entity.di.module';
 import {RouterModule} from '@nestjs/core';
-import {PurchasesModule} from './purchases/purchases.module';
 import {ItemsModule} from './items/items.module';
-import { OptionsModule } from './options/options.module';
+import {OptionsModule} from './options/options.module';
 
 @Module({
   imports: [
@@ -33,8 +32,8 @@ import { OptionsModule } from './options/options.module';
         module: ItemsModule,
       },
       {
-        path: 'purchases',
-        module: PurchasesModule,
+        path: 'options',
+        module: OptionsModule,
       },
     ]),
     EntityDIModule,
