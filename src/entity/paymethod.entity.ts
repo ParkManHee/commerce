@@ -49,8 +49,17 @@ export default class PaymentMethodEntity extends CustomBaseEntity {
     name: 'status',
     type: 'enum',
     enum: DefaultStatus,
-    nullable: true,
+    nullable: false,
     default: DefaultStatus.ACTIVE,
   })
   status: DefaultStatus;
+
+  @Column( {
+    name: 'card_num',
+    type: 'varchar',
+    length: 19,
+    nullable: false,
+    default: ''
+  })
+  cardNum: string;
 }
