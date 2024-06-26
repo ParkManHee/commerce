@@ -8,7 +8,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import CustemBaseEntity from './base.entity';
-import PaymentMethodEntity from './paymethod.entity';
+import PayMethodEntity from './paymethod.entity';
+import PaymentEntity from './payment.entity';
 
 @Entity({
   name: DB.USERS,
@@ -16,13 +17,16 @@ import PaymentMethodEntity from './paymethod.entity';
   comment: '유저 테이블',
 })
 export default class UsersEntity extends CustemBaseEntity {
-  @OneToMany(() => PaymentMethodEntity, paymentMethod => paymentMethod.user)
-  payments: PaymentMethodEntity[];
+  @OneToMany(() => PayMethodEntity, paymentMethod => paymentMethod.user)
+  payTypes: PayMethodEntity[];
+
+  @OneToMany(() => PaymentEntity, payment => payment.user)
+  payment: PaymentEntity[];
 
   @PrimaryGeneratedColumn({
     unsigned: true,
   })
-  seq?: number;
+  seq: number;
 
   @Column({
     name: 'email',
@@ -73,7 +77,7 @@ export default class UsersEntity extends CustemBaseEntity {
     nullable: true,
   })
   addressDetail: string;
-  
+
   @Column({
     name: 'status',
     type: 'enum',

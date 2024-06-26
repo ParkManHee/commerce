@@ -51,32 +51,32 @@ export class ItemsReqDto {
   @IsString()
   name: string;
 
-  @ApiProperty({
-    name: 'supply_price',
-    required: true,
-    example: '1500000',
-    description: '공급가',
-  })
-  @IsNumber()
-  supplyPrice: number;
+  // @ApiProperty({
+  //   name: 'supply_price',
+  //   required: true,
+  //   example: '1500000',
+  //   description: '공급가',
+  // })
+  // @IsNumber()
+  // supplyPrice: number;
 
-  @ApiProperty({
-    name: 'selling_price',
-    required: true,
-    example: '2000000',
-    description: '판매가',
-  })
-  @IsNumber()
-  sellingPrice: number;
+  // @ApiProperty({
+  //   name: 'selling_price',
+  //   required: true,
+  //   example: '2000000',
+  //   description: '판매가',
+  // })
+  // @IsNumber()
+  // sellingPrice: number;
 
-  @ApiProperty({
-    name: 'stock',
-    required: true,
-    example: '50',
-    description: '재고',
-  })
-  @IsNumber()
-  stock: number;
+  // @ApiProperty({
+  //   name: 'stock',
+  //   required: true,
+  //   example: '50',
+  //   description: '재고',
+  // })
+  // @IsNumber()
+  // stock: number;
 }
 
 export class ItemsResDto {
@@ -98,32 +98,32 @@ export class ItemsResDto {
   @IsString()
   name: string;
 
-  @ApiProperty({
-    name: 'supply_price',
-    required: true,
-    example: '1500000',
-    description: '공급가',
-  })
-  @IsNumber()
-  supplyPrice: number;
+  // @ApiProperty({
+  //   name: 'supply_price',
+  //   required: true,
+  //   example: '1500000',
+  //   description: '공급가',
+  // })
+  // @IsNumber()
+  // supplyPrice: number;
 
-  @ApiProperty({
-    name: 'selling_price',
-    required: true,
-    example: '2000000',
-    description: '판매가',
-  })
-  @IsNumber()
-  sellingPrice: number;
+  // @ApiProperty({
+  //   name: 'selling_price',
+  //   required: true,
+  //   example: '2000000',
+  //   description: '판매가',
+  // })
+  // @IsNumber()
+  // sellingPrice: number;
 
-  @ApiProperty({
-    name: 'stock',
-    required: true,
-    example: '50',
-    description: '재고',
-  })
-  @IsNumber()
-  stock: number;
+  // @ApiProperty({
+  //   name: 'stock',
+  //   required: true,
+  //   example: '50',
+  //   description: '재고',
+  // })
+  // @IsNumber()
+  // stock: number;
 
   @IsArray()
   options: [];

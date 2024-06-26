@@ -3,7 +3,9 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import UsersEntity from '../entity/users.entity';
 import ItemEntity from 'src/entity/items.entity';
 import ItemOptionsEntity from 'src/entity/item.options.entity';
-import PaymentMethodEntity from 'src/entity/paymethod.entity';
+import PayMethodEntity from 'src/entity/paymethod.entity';
+import PaymentEntity from 'src/entity/payment.entity';
+import PaymentDetailEntity from 'src/entity/payment.detail.entity';
 @Global()
 @Module({
   imports: [
@@ -11,7 +13,9 @@ import PaymentMethodEntity from 'src/entity/paymethod.entity';
       UsersEntity,
       ItemEntity,
       ItemOptionsEntity,
-      PaymentMethodEntity,
+      PayMethodEntity,
+      PaymentEntity,
+      PaymentDetailEntity,
     ]),
   ],
   controllers: [],

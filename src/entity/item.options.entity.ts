@@ -6,11 +6,13 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import CustomBaseEntity from './base.entity';
 import ItemsEntity from './items.entity';
 import {DefaultStatus} from 'src/enums/default.status';
+import PaymentDetailEntity from './payment.detail.entity';
 
 @Entity({
   name: DB.ITEMS_OPTIONS,
@@ -23,6 +25,9 @@ export default class ItemOptionsEntity extends CustomBaseEntity {
     unsigned: true,
   })
   seq?: number;
+
+  @OneToMany(() => PaymentDetailEntity, detail => detail.option)
+  detail: PaymentDetailEntity[];
 
   @ManyToOne(() => ItemsEntity, item => item.options, {
     nullable: false,

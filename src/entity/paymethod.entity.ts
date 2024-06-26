@@ -20,13 +20,13 @@ import {PayType} from 'src/enums/pay.type.enum';
   comment: '결제수단 테이블',
 })
 // @Index(`FK_USERS_01`, [`user`])
-export default class PaymentMethodEntity extends CustomBaseEntity {
+export default class PayMethodEntity extends CustomBaseEntity {
   @PrimaryGeneratedColumn({
     unsigned: true,
   })
   seq?: number;
 
-  @ManyToOne(() => UsersEntity, user => user.payments, {
+  @ManyToOne(() => UsersEntity, user => user.payTypes, {
     nullable: false,
   })
   @JoinColumn({
@@ -54,12 +54,21 @@ export default class PaymentMethodEntity extends CustomBaseEntity {
   })
   status: DefaultStatus;
 
-  @Column( {
+  @Column({
+    name: 'name',
+    type: 'varchar',
+    length: 20,
+    nullable: false,
+    default: '',
+  })
+  name: string;
+
+  @Column({
     name: 'card_num',
     type: 'varchar',
     length: 19,
     nullable: false,
-    default: ''
+    default: '',
   })
   cardNum: string;
 }

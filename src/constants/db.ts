@@ -6,6 +6,8 @@ export const DB = {
   ITEMS: 'items',
   ITEMS_OPTIONS: 'item_options',
   PAYMENT_METHOD: 'payment_method',
+  PAYMENT: 'payment',
+  PAYMENT_DETAIL: 'payment_detail',
 } as const;
 
 export const options: TypeOrmModuleOptions = {
