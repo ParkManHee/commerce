@@ -2,14 +2,16 @@ services:
   postgres:
     build:
       context: .
-      dockerfile: ./postgres/Dockerfile
+      dockerfile: .docker/postgres/Dockerfile
     restart: always
     container_name: postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - ./postgres/initdb.d/:/docker-entrypoint-initdb.d/
     environment:
       POSTGRES_DB: commerce
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
+  api:
+    build: asdf

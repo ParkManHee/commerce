@@ -86,15 +86,6 @@ export class PaymentDetailReqDto {
   })
   @IsNumber()
   optionCnt: number;
-
-  @ApiProperty({
-    name: 'status',
-    required: false,
-    example: PaymentDetailStatus.PAYMENT,
-    description: '거래상태',
-  })
-  @IsString()
-  status: PaymentDetailStatus;
 }
 
 export class PaymentResDto {
@@ -124,15 +115,6 @@ export class PaymentResDto {
   })
   @IsNumber()
   payType: PayMethodEntity | number;
-
-  //   @ApiProperty({
-  //     name: 'seq',
-  //     required: false,
-  //     example: 1,
-  //     description: '총 거래 ',
-  //   })
-  //   @IsNumber()
-  //   totalSellingPrice: number;
 
   @ApiProperty({
     name: 'status',

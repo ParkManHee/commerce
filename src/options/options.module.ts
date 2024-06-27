@@ -2,7 +2,7 @@ import {Module} from '@nestjs/common';
 import {OptionsController} from './options.controller';
 import {OptionsService} from './options.service';
 import {CustomRepositoryModule} from 'src/decorator/custom-repository.decorator.module';
-import {ItemsRepository} from 'src/repositories/item.repository';
+import {ItemsRepository} from 'src/repositories/items.repository';
 import {ItemOptionsRepository} from 'src/repositories/item.options.repository';
 
 @Module({

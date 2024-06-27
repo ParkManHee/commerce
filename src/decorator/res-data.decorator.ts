@@ -15,11 +15,8 @@ import {
 import * as dayjs from 'dayjs';
 import {HttpStatus} from '../enums/http.status';
 
-// metadata에 대한 상수 정의
-// core에서만 사용되고, app layer에서는 사용되지 않음
 export const RES_DATA_METADATA = 'RES_DATA_METADATA';
 
-// 옵션 정의
 export interface ResDataOptions {
   pagination?: boolean;
   search?: boolean;
@@ -121,13 +118,8 @@ export class ResDataDto<T> {
   }
 }
 
-// 데코레이터 함수 정의
 export function ResData(options: ResDataOptions = {}): MethodDecorator {
-  // applyDecorators는 사용하지 않아도 됨
-  // 데코레이터 체이닝에 대한 가능성을 염두에 두고 작업하였음
   return applyDecorators(
-    // method에 대한 metadata를 정의함
-    // 나중에 `MetadataScanner`를 통해서 값을 가져옴
     SetMetadata(RES_DATA_METADATA, options)
   );
 }

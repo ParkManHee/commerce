@@ -19,7 +19,6 @@ import PaymentDetailEntity from './payment.detail.entity';
   database: DB.DATABASE_NAME,
   comment: '제품 옵션 테이블',
 })
-// @Index(`FK_ITEMS_OPTIONS_01`, [`item`])
 export default class ItemOptionsEntity extends CustomBaseEntity {
   @PrimaryGeneratedColumn({
     unsigned: true,

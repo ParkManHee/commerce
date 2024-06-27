@@ -45,26 +45,6 @@ export default class PaymentEntity extends CustomBaseEntity {
   })
   payType: PayMethodEntity | number;
 
-  // @Column({
-  //   name: 'total_supply_price',
-  //   type: 'decimal',
-  //   precision: 10,
-  //   scale: 2,
-  //   nullable: true,
-  //   default: 0.0,
-  // })
-  // totalSupplyPrice: number;
-
-  // @Column({
-  //   name: 'total_selling_price',
-  //   type: 'decimal',
-  //   precision: 10,
-  //   scale: 2,
-  //   nullable: true,
-  //   default: 0.0,
-  // })
-  // totalSellingPrice: number;
-
   @Column({
     name: 'status',
     type: 'enum',

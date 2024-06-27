@@ -1,4 +1,4 @@
-import {Module} from '@nestjs/common';
+import {Module, OnApplicationBootstrap} from '@nestjs/common';
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {TypeOrmModule} from '@nestjs/typeorm';
@@ -10,24 +10,20 @@ import {ItemsModule} from './items/items.module';
 import {OptionsModule} from './options/options.module';
 import {PaymethodModule} from './paymethod/paymethod.module';
 import {PaymentModule} from './payment/payment.module';
+import {SeedsService} from './seeds/seeds.service';
+import * as path from 'path';
+import {UsersRepository} from './repositories/users.repository';
+import {ItemsRepository} from './repositories/items.repository';
+import {ItemOptionsRepository} from './repositories/item.options.repository';
+import {CustomRepositoryModule} from './decorator/custom-repository.decorator.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ['./config/env/.env'],
+      envFilePath: [path.resolve(__dirname, '../env/.env')],
       isGlobal: true,
     }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'admin',
-      password: 'password',
-      database: 'commerce',
-      autoLoadEntities: true,
-      synchronize: true,
-      logging: true,
-    }),
+    TypeOrmModule.forRoot(options),
     RouterModule.register([
       {
         path: 'items',
@@ -51,8 +47,19 @@ import {PaymentModule} from './payment/payment.module';
     OptionsModule,
     PaymethodModule,
     PaymentModule,
+    CustomRepositoryModule.forCustomRepository([
+      ItemsRepository,
+      ItemOptionsRepository,
+      UsersRepository,
+    ]),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SeedsService],
 })
-export class AppModule {}
+export class AppModule implements OnApplicationBootstrap {
+  constructor(private readonly seedsService: SeedsService) {}
+
+  async onApplicationBootstrap(): Promise<void> {
+    await this.seedsService.seed();
+  }
+}

@@ -1,6 +1,6 @@
 import {BadRequestException, Injectable} from '@nestjs/common';
 import {ItemsQueryReqDto, ItemsReqDto} from './dto/items.dto';
-import {ItemsRepository} from 'src/repositories/item.repository';
+import {ItemsRepository} from 'src/repositories/items.repository';
 import * as _ from 'lodash';
 import * as dayjs from 'dayjs';
 import {DefaultStatus} from 'src/enums/default.status';

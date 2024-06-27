@@ -3,7 +3,7 @@ import {ItemsController} from './items.controller';
 import {ItemsService} from './items.service';
 import {CustomRepositoryModule} from 'src/decorator/custom-repository.decorator.module';
 import {ItemOptionsRepository} from 'src/repositories/item.options.repository';
-import {ItemsRepository} from 'src/repositories/item.repository';
+import {ItemsRepository} from 'src/repositories/items.repository';
 
 @Module({
   imports: [

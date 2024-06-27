@@ -19,7 +19,6 @@ import {PayType} from 'src/enums/pay.type.enum';
   database: DB.DATABASE_NAME,
   comment: '결제수단 테이블',
 })
-// @Index(`FK_USERS_01`, [`user`])
 export default class PayMethodEntity extends CustomBaseEntity {
   @PrimaryGeneratedColumn({
     unsigned: true,

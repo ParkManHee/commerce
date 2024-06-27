@@ -30,9 +30,6 @@ export function ApiDeco(option: IApiDeco) {
   if (option.params) {
     decorators.push(...option.params.map((param) => ApiParam(param)));
   }
-  // if (option.response) {
-  //   decorators.push(ApiResponse(option.response));
-  // }
   if (option.body) {
     decorators.push(ApiBody(option.body));
   }
@@ -48,7 +45,7 @@ export function ApiDeco(option: IApiDeco) {
     if (description || status) args = { description, status };
 
     const { ext, res } = ApiResDataRespones(type, args, isArray);
-    //                   hack
+    
     decorators.push(ext, res!);
   }
 

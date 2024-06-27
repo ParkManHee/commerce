@@ -31,6 +31,7 @@ export default class PaymentDetailEntity extends CustomBaseEntity {
   })
   payment: PaymentEntity | number;
 
+  @ManyToOne(() => ItemsEntity, item => item.seq)
   @JoinColumn({
     name: 'item_seq',
     referencedColumnName: 'seq',
@@ -38,6 +39,7 @@ export default class PaymentDetailEntity extends CustomBaseEntity {
   })
   item: ItemsEntity | number;
 
+  @ManyToOne(() => ItemOptionsEntity, option => option.seq)
   @JoinColumn({
     name: 'option_seq',
     referencedColumnName: 'seq',
@@ -46,22 +48,20 @@ export default class PaymentDetailEntity extends CustomBaseEntity {
   option: ItemOptionsEntity | number;
 
   @Column({
-    name: 'options_cnt',
+    name: 'request_cnt',
     type: 'int',
     nullable: false,
-    default: null,
+    default: 0,
   })
-  optionCnt: number;
+  requestCnt: number;
 
   @Column({
-    name: 'selling_price',
-    type: 'decimal',
-    precision: 10,
-    scale: 2,
+    name: 'current_cnt',
+    type: 'int',
     nullable: true,
-    default: 0.0,
+    default: 0,
   })
-  sellingPrice: number;
+  currentCnt: number;
 
   @Column({
     name: 'status',

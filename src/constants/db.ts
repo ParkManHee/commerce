@@ -1,4 +1,7 @@
 import {TypeOrmModuleOptions} from '@nestjs/typeorm';
+import * as dotenv from 'dotenv';
+import * as path from 'path';
+dotenv.config({path: path.resolve(__dirname, '../../env/.env')});
 
 export const DB = {
   DATABASE_NAME: process.env.POSTGRES_DATABASE,
@@ -21,4 +24,3 @@ export const options: TypeOrmModuleOptions = {
   synchronize: true,
   logging: false,
 };
-console.log(options);
