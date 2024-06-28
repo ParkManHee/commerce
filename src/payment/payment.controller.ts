@@ -16,6 +16,7 @@ import {
   PaymentParamsReqDto,
   PaymentReqDto,
   PaymentResDto,
+  PaymentReturnReqDto,
   UserQueryDto,
 } from './dto/payment.dto';
 
@@ -53,7 +54,7 @@ export class PaymentController {
   async returnItem(
     @Reply() reply: ReplyType,
     @Param() params: PaymentParamsReqDto,
-    @Body() body: PaymentReqDto
+    @Body() body: PaymentReturnReqDto
   ) {
     return reply(await this.paymentService.returnItem(params.seq, body));
   }

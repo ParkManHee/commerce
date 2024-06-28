@@ -1,4 +1,4 @@
-import {IsArray, IsBoolean, IsNumber, IsString} from 'class-validator';
+import {IsBoolean, IsNumber, IsString} from 'class-validator';
 import {ApiProperty} from '@nestjs/swagger';
 
 export class OptionParamsReqDto {
@@ -7,6 +7,17 @@ export class OptionParamsReqDto {
     required: false,
     example: 1,
     description: '옵션 아이디',
+  })
+  @IsNumber()
+  seq: number;
+}
+
+export class ItemParamsReqDto {
+  @ApiProperty({
+    name: 'seq',
+    required: false,
+    example: 1,
+    description: '상품 아이디',
   })
   @IsNumber()
   seq: number;

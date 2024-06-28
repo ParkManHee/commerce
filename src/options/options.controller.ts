@@ -14,6 +14,7 @@ import {ApiDeco} from '../decorator/api.decorator';
 import {OptionsService} from './options.service';
 import {Reply, ReplyType} from 'src/decorator/reply.decorator';
 import {
+  ItemParamsReqDto,
   OptionParamsReqDto,
   OptionQueryReqDto,
   OptionReqDto,
@@ -36,7 +37,7 @@ export class OptionsController {
   @Get('/:seq')
   async getOptions(
     @Reply() reply: ReplyType,
-    @Param() params: OptionParamsReqDto,
+    @Param() params: ItemParamsReqDto,
     @Query() query: OptionQueryReqDto
   ) {
     return reply(await this.optionsService.getOptions(params.seq, query));

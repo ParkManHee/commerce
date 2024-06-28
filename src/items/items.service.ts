@@ -19,50 +19,58 @@ export class ItemsService {
     return await this.itemsRepository.create(data).save();
   }
   async updateItem(seq: number, data: ItemsReqDto) {
-    const item = await this.itemsRepository.findOne({
-      where: {
-        seq: seq,
-        status: DefaultStatus.ACTIVE,
-      },
-    });
-    if (_.isNil(item)) {
-      throw new BadRequestException('해당 상품이 존재하지 않습니다.');
-    }
-
-    const result = await this.itemsRepository.update(
-      {
-        seq: seq,
-      },
-      {
-        ...data,
+    try {
+      const item = await this.itemsRepository.findOne({
+        where: {
+          seq: seq,
+          status: DefaultStatus.ACTIVE,
+        },
+      });
+      if (_.isNil(item)) {
+        throw new BadRequestException('해당 상품이 존재하지 않습니다.');
       }
-    );
-    return {
-      isSuccess: result.affected === 1 ? true : false,
-    };
+
+      const result = await this.itemsRepository.update(
+        {
+          seq: seq,
+        },
+        {
+          ...data,
+        }
+      );
+      return {
+        isSuccess: result.affected === 1 ? true : false,
+      };
+    } catch (e) {
+      throw e;
+    }
   }
   async deleteItem(seq: number) {
-    const item = await this.itemsRepository.findOne({
-      where: {
-        seq: seq,
-        status: DefaultStatus.ACTIVE,
-      },
-    });
-    if (_.isNil(item)) {
-      throw new BadRequestException('해당 상품이 존재하지 않습니다.');
-    }
-    const result = await this.itemsRepository.update(
-      {
-        seq: seq,
-      },
-      {
-        deletedAt: dayjs().format(),
-        lastModifiedAt: dayjs().format(),
-        status: DefaultStatus.DELETE,
+    try {
+      const item = await this.itemsRepository.findOne({
+        where: {
+          seq: seq,
+          status: DefaultStatus.ACTIVE,
+        },
+      });
+      if (_.isNil(item)) {
+        throw new BadRequestException('해당 상품이 존재하지 않습니다.');
       }
-    );
-    return {
-      isSuccess: result.affected === 1 ? true : false,
-    };
+      const result = await this.itemsRepository.update(
+        {
+          seq: seq,
+        },
+        {
+          deletedAt: dayjs().format(),
+          lastModifiedAt: dayjs().format(),
+          status: DefaultStatus.DELETE,
+        }
+      );
+      return {
+        isSuccess: result.affected === 1 ? true : false,
+      };
+    } catch (e) {
+      throw e;
+    }
   }
 }

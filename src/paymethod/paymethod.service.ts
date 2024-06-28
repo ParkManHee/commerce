@@ -4,7 +4,7 @@ import {PayMethodReqDto} from './dto/pay.method.dto';
 import {UsersRepository} from 'src/repositories/users.repository';
 import {DefaultStatus} from 'src/enums/default.status';
 import * as _ from 'lodash';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 
 @Injectable()
 export class PaymethodService {
@@ -13,54 +13,71 @@ export class PaymethodService {
     private readonly usersRepository: UsersRepository
   ) {}
   async getPayMethod(seq: number) {
-    const user = await this.usersRepository.findOne({
-      where: {
-        seq: seq,
-      },
-    });
-    if (_.isNil(user)) {
-      throw new BadRequestException('해당 유저가 존재하지 않습니다.');
+    try {
+      const user = await this.usersRepository.findOne({
+        where: {
+          seq: seq,
+        },
+      });
+      if (_.isNil(user)) {
+        throw new BadRequestException('해당 유저가 존재하지 않습니다.');
+      }
+      return await this.payMethodRepository.getPayMethod(seq);
+    } catch (e) {
+      console.error(e);
+      throw e;
     }
-    return await this.payMethodRepository.getPayMethod(seq);
   }
   async createPayMethod(seq: number, data: PayMethodReqDto) {
-    const user = await this.usersRepository.findOne({
-      where: {
-        seq: seq,
-      },
-    });
-    if (_.isNil(user)) {
-      throw new BadRequestException('해당 유저가 존재하지 않습니다.');
-    }
+    try {
+      const user = await this.usersRepository.findOne({
+        where: {
+          seq: seq,
+        },
+      });
+      if (_.isNil(user)) {
+        throw new BadRequestException('해당 유저가 존재하지 않습니다.');
+      }
 
-    return await this.payMethodRepository
-      .create({
-        user: seq,
-        ...data,
-      })
-      .save();
+      return await this.payMethodRepository
+        .create({
+          user: seq,
+          ...data,
+        })
+        .save();
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
   }
   async deletePayMethod(seq: number) {
-    const user = await this.usersRepository.findOne({
-      where: {
-        seq: seq,
-      },
-    });
-    if (_.isNil(user)) {
-      throw new BadRequestException('해당 유저가 존재하지 않습니다.');
+    try {
+      // TODO: user 가 있는지 확인 필요
+      // const user = await this.usersRepository.findOne({
+      //   where: {
+      //     seq: seq,
+      //     status: DefaultStatus.ACTIVE,
+      //   },
+      // });
+      // if (_.isNil(user)) {
+      //   throw new BadRequestException('해당 유저가 존재하지 않습니다.');
+      // }
+      const result = await this.payMethodRepository.update(
+        {
+          seq: seq,
+        },
+        {
+          deletedAt: dayjs().format(),
+          lastModifiedAt: dayjs().format(),
+          status: DefaultStatus.DELETE,
+        }
+      );
+      return {
+        isSuccess: result.affected === 1 ? true : false,
+      };
+    } catch (e) {
+      console.log(e);
+      throw e;
     }
-    const result = await this.payMethodRepository.update(
-      {
-        seq: seq,
-      },
-      {
-        deletedAt: dayjs().format(),
-        lastModifiedAt: dayjs().format(),
-        status: DefaultStatus.DELETE,
-      }
-    );
-    return {
-      isSuccess: result.affected === 1 ? true : false,
-    };
   }
 }

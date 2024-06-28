@@ -1,4 +1,4 @@
-import {IsArray, IsBoolean, IsNumber, IsString} from 'class-validator';
+import {IsArray, IsNumber, IsString} from 'class-validator';
 import {ApiProperty} from '@nestjs/swagger';
 import {PaymentStatus} from 'src/enums/payment.status';
 import ItemsEntity from 'src/entity/items.entity';
@@ -51,7 +51,60 @@ export class PaymentReqDto {
   @ApiProperty({
     name: 'detail',
     required: false,
-    example: [],
+    example: `[
+      {
+        "item": 1,
+        "option": 1,
+        "option_cnt": 5 
+      },
+      {
+        "item": 1,
+        "option": 2,
+        "option_cnt": 3
+      }
+    ]`,
+    description: '거래목록',
+  })
+  @IsArray()
+  detail: PaymentDetailReqDto[];
+}
+
+export class PaymentReturnReqDto {
+  @ApiProperty({
+    name: 'user',
+    required: false,
+    example: 1,
+    description: '유저번호',
+  })
+  @IsNumber()
+  user: number;
+
+  @ApiProperty({
+    name: 'pay_type',
+    required: false,
+    example: 1,
+    description: '결제수단번호',
+  })
+  @IsNumber()
+  payType: number;
+
+  @ApiProperty({
+    name: 'detail',
+    required: false,
+    example: `[
+      {
+        "seq": 1,
+        "item": 1,
+        "option": 1,
+        "option_cnt": 5 
+      },
+      {
+        "seq": 2,
+        "item": 1,
+        "option": 2,
+        "option_cnt": 3
+      }
+    ]`,
     description: '거래목록',
   })
   @IsArray()
@@ -60,6 +113,15 @@ export class PaymentReqDto {
 
 export class PaymentDetailReqDto {
   payment: number;
+
+  @ApiProperty({
+    name: 'seq',
+    required: false,
+    example: 1,
+    description: '거래 세부항목 번호',
+  })
+  seq?: number;
+
   @ApiProperty({
     name: 'item',
     required: false,

@@ -8,11 +8,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import CustomBaseEntity from './base.entity';
-import ItemOptionsEntity from './item.options.entity';
 import UsersEntity from './users.entity';
 import PayMethodEntity from './paymethod.entity';
 import {PaymentStatus} from 'src/enums/payment.status';
-import ItemsEntity from './items.entity';
 import PaymentDetailEntity from './payment.detail.entity';
 
 @Entity({

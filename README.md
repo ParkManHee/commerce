@@ -61,7 +61,7 @@ port: 5430,
 
 참조: github link - <https://github.com/ParkManHee/commerce/tree/main>
 
-1. 프로젝트
+1. 프로젝트 다운로드
 2. docker 설치
 3. docker network 를 생성 `docker network create commerce`
 4. docker compose 실행 `docker compose up -d`

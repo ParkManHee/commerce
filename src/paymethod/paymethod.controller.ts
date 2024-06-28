@@ -18,7 +18,7 @@ import {
 } from './dto/pay.method.dto';
 import {ApiTags} from '@nestjs/swagger';
 
-@ApiTags('pay/method')
+@ApiTags('paymethod')
 @Controller()
 export class PaymethodController {
   constructor(

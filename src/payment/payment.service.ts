@@ -1,6 +1,6 @@
 import {BadRequestException, Injectable} from '@nestjs/common';
 import {PaymentRepository} from 'src/repositories/payment.repository';
-import {PaymentReqDto} from './dto/payment.dto';
+import {PaymentReqDto, PaymentReturnReqDto} from './dto/payment.dto';
 import {DataSource, QueryRunner} from 'typeorm';
 import {PaymentDetailRepository} from 'src/repositories/payment.detail.repository';
 import {PaymentStatus} from 'src/enums/payment.status';
@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import {UsersRepository} from 'src/repositories/users.repository';
 import {DefaultStatus} from 'src/enums/default.status';
 import {PaymentDetailStatus} from 'src/enums/payment.detail.status';
+import PaymentEntity from 'src/entity/payment.entity';
 
 @Injectable()
 export class PaymentService {
@@ -27,6 +28,7 @@ export class PaymentService {
     return await this.paymentRepository.findByUserSeq(seq);
   }
   async createPayment(body: PaymentReqDto) {
+    let result: PaymentEntity;
     const queryRunner: QueryRunner = this.datasource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -44,13 +46,15 @@ export class PaymentService {
       if (_.isNil(user)) {
         throw new BadRequestException('유저가 존재하지 않습니다.');
       }
+      if (_.isNil(user.payTypes)) {
+        throw new BadRequestException('결제 수단이 존재하지 않습니다.');
+      }
       const payment = this.paymentRepository.create({
         user: body.user,
         payType: body.payType,
         status: PaymentStatus.PAYMENT,
       });
-      await queryRunner.manager.save(payment);
-
+      result = await queryRunner.manager.save(payment);
       const bulkDetailData = [];
       const updateOption = [];
 
@@ -67,6 +71,7 @@ export class PaymentService {
             },
             relations: ['options'],
           });
+          console.log(item);
           if (_.isNil(item)) {
             throw new BadRequestException('해당 상품이 존재하지 않습니다.');
           }
@@ -77,7 +82,7 @@ export class PaymentService {
           updateOption.push(item.options[0]);
           bulkDetailData.push(
             this.paymentDetailRepository.create({
-              payment: payment.seq,
+              payment: result.seq,
               item: detail.item,
               option: detail.option,
               requestCnt: detail.optionCnt,
@@ -85,6 +90,8 @@ export class PaymentService {
               status: PaymentDetailStatus.PAYMENT,
             })
           );
+          console.log(item.options[0]);
+          console.log(bulkDetailData);
           return;
         })
       );
@@ -93,14 +100,16 @@ export class PaymentService {
       await queryRunner.manager.save(updateOption);
 
       await queryRunner.commitTransaction();
-      return payment;
+      return result;
     } catch (e) {
+      console.log(e);
       await queryRunner.rollbackTransaction();
+      throw e;
     } finally {
       await queryRunner.release();
     }
   }
-  async returnItem(seq: number, body: PaymentReqDto) {
+  async returnItem(seq: number, body: PaymentReturnReqDto) {
     const queryRunner = this.datasource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -124,6 +133,7 @@ export class PaymentService {
             where: {
               seq: seq,
               detail: {
+                seq: detail.seq,
                 item: detail.item,
                 option: detail.option,
                 status: PaymentDetailStatus.PAYMENT,
@@ -131,6 +141,7 @@ export class PaymentService {
             },
             relations: ['detail', 'detail.option'],
           });
+          console.log(payment);
           if (_.isNil(payment)) {
             throw new BadRequestException('해당 거래내역이 존재하지 않습니다.');
           }
@@ -165,13 +176,13 @@ export class PaymentService {
 
       await queryRunner.commitTransaction();
 
-      return;
+      return updateDetailData;
     } catch (e) {
       console.log(e);
       await queryRunner.rollbackTransaction();
+      throw e;
     } finally {
       await queryRunner.release();
     }
-    return await this.paymentRepository.returnItem(seq, body);
   }
 }

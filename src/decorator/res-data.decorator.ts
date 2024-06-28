@@ -1,7 +1,6 @@
 import {
   applyDecorators,
   InternalServerErrorException,
-  Logger,
   SetMetadata,
   Type,
 } from '@nestjs/common';
@@ -165,8 +164,6 @@ export function ExResData<T>(): MethodDecorator {
         const searchQuery: SearchQuery = {};
         let page = 1;
         let size = 10;
-        let sort_element = null;
-        let sort_type = null;
 
         if (req.query as Record<string, unknown>) {
           Object.keys(req.query).forEach(key => {
@@ -179,12 +176,6 @@ export function ExResData<T>(): MethodDecorator {
                 break;
               case 'size':
                 size = Number(req.query[key]) || 0;
-                break;
-              case 'sort_element':
-                sort_element = req.query[key];
-                break;
-              case 'sort_type':
-                sort_type = req.query[key];
                 break;
               default:
                 searchQuery[key] = req.query[key];

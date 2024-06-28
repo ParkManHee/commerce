@@ -1,12 +1,9 @@
 import {DB} from 'src/constants/db';
 import {
-  BaseEntity,
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import CustomBaseEntity from './base.entity';
