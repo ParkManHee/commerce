@@ -1,15 +1,9 @@
 import {DB} from 'src/constants/db';
-import {UsersStatus} from 'src/enums/user.status';
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import CustemBaseEntity from './base.entity';
 import PayMethodEntity from './paymethod.entity';
 import PaymentEntity from './payment.entity';
+import {DefaultStatus} from 'src/enums/default.status';
 
 @Entity({
   name: DB.USERS,
@@ -81,9 +75,9 @@ export default class UsersEntity extends CustemBaseEntity {
   @Column({
     name: 'status',
     type: 'enum',
-    enum: UsersStatus,
+    enum: DefaultStatus,
     nullable: true,
-    default: UsersStatus.ACTIVE,
+    default: DefaultStatus.ACTIVE,
   })
-  status: UsersStatus;
+  status: DefaultStatus;
 }

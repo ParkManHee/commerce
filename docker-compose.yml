@@ -1,17 +1,34 @@
+version: '3'
 services:
   postgres:
     build:
       context: .
-      dockerfile: .docker/postgres/Dockerfile
+      dockerfile: ./docker/postgres/Dockerfile
     restart: always
     container_name: postgres
     ports:
-      - '5432:5432'
+      - '5430:5432'
     volumes:
-      - ./postgres/initdb.d/:/docker-entrypoint-initdb.d/
+      - ./docker/postgres/initdb.d/:/docker-entrypoint-initdb.d/
     environment:
       POSTGRES_DB: commerce
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
+    networks:
+      - commerce
   api:
-    build: asdf
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    restart: always
+    container_name: commerce_api
+    depends_on:
+      - postgres
+    ports:
+      - '3001:3000'
+    networks:
+      - commerce
+
+networks:
+  commerce:
+    external: true

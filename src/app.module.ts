@@ -16,6 +16,7 @@ import {UsersRepository} from './repositories/users.repository';
 import {ItemsRepository} from './repositories/items.repository';
 import {ItemOptionsRepository} from './repositories/item.options.repository';
 import {CustomRepositoryModule} from './decorator/custom-repository.decorator.module';
+import {PaymentRepository} from './repositories/payment.repository';
 
 @Module({
   imports: [
@@ -34,7 +35,7 @@ import {CustomRepositoryModule} from './decorator/custom-repository.decorator.mo
         module: OptionsModule,
       },
       {
-        path: 'payMethod',
+        path: 'paymethod',
         module: PaymethodModule,
       },
       {
@@ -51,6 +52,7 @@ import {CustomRepositoryModule} from './decorator/custom-repository.decorator.mo
       ItemsRepository,
       ItemOptionsRepository,
       UsersRepository,
+      PaymentRepository,
     ]),
   ],
   controllers: [AppController],
@@ -60,6 +62,6 @@ export class AppModule implements OnApplicationBootstrap {
   constructor(private readonly seedsService: SeedsService) {}
 
   async onApplicationBootstrap(): Promise<void> {
-    await this.seedsService.seed();
+    // await this.seedsService.seed();
   }
 }

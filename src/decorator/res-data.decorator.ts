@@ -119,9 +119,7 @@ export class ResDataDto<T> {
 }
 
 export function ResData(options: ResDataOptions = {}): MethodDecorator {
-  return applyDecorators(
-    SetMetadata(RES_DATA_METADATA, options)
-  );
+  return applyDecorators(SetMetadata(RES_DATA_METADATA, options));
 }
 type Args = {
   query: Record<string, unknown>;

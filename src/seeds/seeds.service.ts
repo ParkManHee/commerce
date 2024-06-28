@@ -1,6 +1,5 @@
-import {Inject, Injectable} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {DefaultStatus} from 'src/enums/default.status';
-import {UsersStatus} from 'src/enums/user.status';
 import {ItemOptionsRepository} from 'src/repositories/item.options.repository';
 import {ItemsRepository} from 'src/repositories/items.repository';
 import {UsersRepository} from 'src/repositories/users.repository';
@@ -22,7 +21,7 @@ export class SeedsService {
         postCode: '',
         address: '',
         addressDetail: '',
-        status: UsersStatus.ACTIVE,
+        status: DefaultStatus.ACTIVE,
       })
       .save();
 

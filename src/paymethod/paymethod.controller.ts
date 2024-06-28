@@ -6,7 +6,6 @@ import {
   Inject,
   Param,
   Post,
-  Query,
 } from '@nestjs/common';
 import {PaymethodService} from './paymethod.service';
 import {ApiDeco} from 'src/decorator/api.decorator';
@@ -19,7 +18,7 @@ import {
 } from './dto/pay.method.dto';
 import {ApiTags} from '@nestjs/swagger';
 
-@ApiTags('paymethod')
+@ApiTags('pay/method')
 @Controller()
 export class PaymethodController {
   constructor(

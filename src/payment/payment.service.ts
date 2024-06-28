@@ -1,7 +1,7 @@
 import {BadRequestException, Injectable} from '@nestjs/common';
 import {PaymentRepository} from 'src/repositories/payment.repository';
-import {PaymentDetailReqDto, PaymentReqDto} from './dto/payment.dto';
-import {DataSource, DeepPartial, QueryRunner} from 'typeorm';
+import {PaymentReqDto} from './dto/payment.dto';
+import {DataSource, QueryRunner} from 'typeorm';
 import {PaymentDetailRepository} from 'src/repositories/payment.detail.repository';
 import {PaymentStatus} from 'src/enums/payment.status';
 import {ItemsRepository} from 'src/repositories/items.repository';
@@ -34,7 +34,12 @@ export class PaymentService {
       const user = await this.usersRepository.findOne({
         where: {
           seq: body.user,
+          status: DefaultStatus.ACTIVE,
+          payTypes: {
+            status: DefaultStatus.ACTIVE,
+          },
         },
+        relations: ['payTypes'],
       });
       if (_.isNil(user)) {
         throw new BadRequestException('유저가 존재하지 않습니다.');
@@ -46,8 +51,8 @@ export class PaymentService {
       });
       await queryRunner.manager.save(payment);
 
-      let bulkDetailData = [];
-      let updateOption = [];
+      const bulkDetailData = [];
+      const updateOption = [];
 
       await Promise.all(
         body.detail.map(async detail => {
@@ -109,9 +114,9 @@ export class PaymentService {
         throw new BadRequestException('유저가 존재하지 않습니다.');
       }
 
-      let updateOption = [];
-      let updateDetailData = [];
-      let bulkDetailData = [];
+      const updateOption = [];
+      const updateDetailData = [];
+      const bulkDetailData = [];
 
       await Promise.all(
         body.detail.map(async detail => {
@@ -134,7 +139,6 @@ export class PaymentService {
           }
           const option = payment.detail[0].option;
           if (typeof option === 'object') {
-            console.log();
             option.stock = option.stock + detail.optionCnt;
             updateOption.push(option);
           }

@@ -6,4 +6,4 @@ ENV POSTGRES_DB=commerce
 
 EXPOSE 5432
 
-COPY postgres/initdb.d/ /docker-entrypoint-initdb.d/
+COPY docker/postgres/initdb.d/ /docker-entrypoint-initdb.d/
